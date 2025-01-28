@@ -3,9 +3,9 @@ name: Terraform Pipeline
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
-  workflow_dispatch: # Permite iniciar a pipeline manualmente
+  workflow_dispatch:
 
 jobs:
   terraform:
@@ -17,43 +17,46 @@ jobs:
       - name: Checkout do repositório
         uses: actions/checkout@v3
 
-      # Passo 2: Configurar o Terraform CLI
+      # Passo 2: Configurar Terraform
       - name: Configurar Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.4.0 # Substitua pela versão que você utiliza
+          terraform_version: 1.4.0
 
-      # Passo 3: Configurar as credenciais do GCP
+      # Passo 3: Configurar credenciais do GCP
       - name: Configurar credenciais do GCP
         run: |
           echo "${{ secrets.GOOGLE_CREDENTIALS }}" > $HOME/gcp-key.json
-          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcp-key.json
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
 
-      - name: Verificar criação do arquivo de credenciais
-        run: |
-            echo "Verificando o arquivo gcp-key.json:"
-            ls -l $HOME/gcp-key.json
-            echo "Verificando o conteúdo do arquivo (para debug apenas):"
-            cat $HOME/gcp-key.json
-            echo "GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS"
-  
-      # Passo 4: Inicializar o Terraform
+      # Passo 4: Inicializar Terraform
       - name: Inicializar Terraform
         run: terraform init
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
 
-      # Passo 5: Validar os arquivos Terraform
+      # Passo 5: Validar arquivos Terraform
       - name: Validar arquivos Terraform
         run: terraform validate
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
 
-      # Passo 6: Verificar formatação dos arquivos
-      - name: Verificar formatação (fmt)
+      # Passo 6: Verificar formatação (fmt)
+      - name: Verificar formatação dos arquivos
         run: terraform fmt -check
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
 
-      # Passo 7: Gerar o plano Terraform
+      # Passo 7: Gerar plano Terraform
       - name: Gerar plano Terraform
         run: terraform plan
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
 
-      # Passo 8: Aplicar mudanças manualmente
+      # Passo 8: Aplicar mudanças Terraform (opcional, manual)
       - name: Aplicar mudanças Terraform
         if: github.event_name == 'workflow_dispatch'
         run: terraform apply -auto-approve
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
