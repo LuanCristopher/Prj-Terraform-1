@@ -29,7 +29,13 @@ jobs:
           echo "${{ secrets.GOOGLE_CREDENTIALS }}" > $HOME/sa.json
           export GOOGLE_APPLICATION_CREDENTIALS=$HOME/sa.json
 
-
+      - name: Verificar criação do arquivo de credenciais
+        run: |
+            echo "Verificando o arquivo gcp-key.json:"
+            ls -l $HOME/gcp-key.json
+            echo "Verificando o conteúdo do arquivo (para debug apenas):"
+            cat $HOME/gcp-key.json
+  
       # Passo 4: Inicializar o Terraform
       - name: Inicializar Terraform
         run: terraform init
