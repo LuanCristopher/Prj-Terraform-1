@@ -7,11 +7,15 @@ terraform {
   }
 }
 
-provider "google" {
-  credentials = file("../svc-study-luan/sa.json")
 
-  project = "prj-evandro-lab"
+provider "google" {
+/*
+  credentials = file("../svc-study-luan/sa.json")
+*/
+  project = "cluster-study2"
+  region = "us-central1"
 }
+
 
 module "vpc" {
   source = "./vpc"
