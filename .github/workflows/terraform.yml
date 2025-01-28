@@ -28,7 +28,7 @@ jobs:
       # Passo 3: Configurar credenciais do GCP
       - name: Configurar credenciais do GCP
         run: |
-          echo "${{ secrets.GOOGLE_CREDENTIALS }}" > /home/runner/gcp-key.json
+          printf '%s' "${{ secrets.GOOGLE_CREDENTIALS }}" > /home/runner/gcp-key.json
         env:
           GOOGLE_APPLICATION_CREDENTIALS: /home/runner/gcp-key.json
 
