@@ -9,9 +9,7 @@ terraform {
 
 
 provider "google" {
-  /*
-  credentials = file("../svc-study-luan/sa.json")
-*/
+  credentials = file("../../svc-study-luan/sa.json")
   project = "cluster-study2"
   region  = "us-central1"
 }
