@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "google" {
-  credentials = file("./provider/chave2.json")
+  credentials = file("../svc-study-luan/sa.json")
 
   project = "prj-evandro-lab"
 }
