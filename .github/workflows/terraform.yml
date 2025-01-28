@@ -28,17 +28,12 @@ jobs:
       # Passo 3: Configurar credenciais do GCP
       - name: Configurar credenciais do GCP
         run: |
-          printf '%s' "${{ secrets.GOOGLE_CREDENTIALS }}" > /home/runner/gcp-key.json
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: /home/runner/gcp-key.json
+          echo "${{ secrets.GOOGLE_CREDENTIALS }}" | tr -d '\r' > /home/runner/gcp-key.json
 
-      # Passo 4: Verificar criação do arquivo de credenciais
-      - name: Verificar criação do arquivo de credenciais
+      # Passo 4: Validar arquivo JSON
+      - name: Validar arquivo JSON
         run: |
-          echo "Verificando se o arquivo foi criado:"
-          ls -l /home/runner/gcp-key.json
-          echo "Conteúdo do arquivo (para depuração apenas):"
-          cat /home/runner/gcp-key.json
+          cat /home/runner/gcp-key.json | jq
 
       # Passo 5: Inicializar Terraform
       - name: Inicializar Terraform
@@ -52,7 +47,7 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: /home/runner/gcp-key.json
 
-      # Passo 7: Verificar formatação dos arquivos Terraform
+      # Passo 7: Verificar formatação dos arquivos
       - name: Verificar formatação dos arquivos
         run: terraform fmt -check
         env:
