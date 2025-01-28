@@ -1,82 +1,82 @@
 #--------------------------VMs---------------------------#
 
 variable "luan-vm-sp" {
-  type = string
+  type    = string
   default = "luan-vm-sp"
 }
 
 variable "luan-vm-sp2" {
-    type = string
-    default = "luan-vm-sp2"
+  type    = string
+  default = "luan-vm-sp2"
 }
 variable "luan-vm-chile" {
-    type = string
-    default = "luan-vm-chile" 
+  type    = string
+  default = "luan-vm-chile"
 }
 variable "luan-vm-iowa" {
-    type = string
-    default = "luan-vm-iowa"  
+  type    = string
+  default = "luan-vm-iowa"
 }
 
 variable "luan-vm-europe" {
-    type = string
-    default = "luan-vm-europe"  
+  type    = string
+  default = "luan-vm-europe"
 }
 
 #-----------------------------------zonas--------------------------------------------#
 
 variable "zona-sp" {
-    type = string
-    default = "southamerica-east1-a"   
+  type    = string
+  default = "southamerica-east1-a"
 }
 
 variable "zona-chile" {
-    type = string
-    default = "southamerica-west1-a"   
+  type    = string
+  default = "southamerica-west1-a"
 }
 
 variable "zona-iowa" {
-    type = string
-    default = "us-central1-a"   
+  type    = string
+  default = "us-central1-a"
 }
 
 variable "zona-europe" {
-    type = string
-    default = "europe-central2-a"   
+  type    = string
+  default = "europe-central2-a"
 }
 
 #-----------------------------------instancias configure--------------------------------------------#
 
 variable "vm-mc-type" {
-  type = string
+  type    = string
   default = "e2-micro"
 }
 
 variable "disk-image" {
-  type = string
+  type    = string
   default = "ubuntu-os-cloud/ubuntu-2004-lts"
 }
 
 variable "size" {
-  type = number
+  type    = number
   default = 10
 }
 
 variable "tags" {
-  type = string
+  type    = string
   default = "minha-tag"
 }
 
 #-----------------------------------instancias vpc--------------------------------------------#
 
 variable "luan-vpc-1" {
-  type = string
+  type    = string
   default = "luan-vpc-1"
 }
 
 
 variable "luan-vpc-2" {
-  type = string
+  type    = string
   default = "luan-vpc-2"
 }
 
@@ -84,70 +84,70 @@ variable "luan-vpc-2" {
 
 
 variable "subnet-sp" {
-  type = string
-  default = "subnet-sp" 
+  type    = string
+  default = "subnet-sp"
 }
 
 variable "subnet-sp2" {
-  type = string
-  default = "subnet-sp2" 
+  type    = string
+  default = "subnet-sp2"
 }
 
 variable "subnet-chile" {
-  type = string
-  default = "subnet-chile" 
+  type    = string
+  default = "subnet-chile"
 }
 
 variable "subnet-iowa" {
-  type = string
-  default = "subnet-iowa" 
+  type    = string
+  default = "subnet-iowa"
 }
 
 variable "subnet-europe" {
-  type = string
-  default = "subnet-europe" 
+  type    = string
+  default = "subnet-europe"
 }
 
 #-------------------------------IPRange--------------------------------------#
 
 variable "ip-cidr-range-sp" {
-  type = string
+  type    = string
   default = "192.168.60.0/28"
 }
 
 variable "ip-cidr-range-chile" {
-  type = string
+  type    = string
   default = "192.168.60.16/28"
 }
 
 variable "ip-cidr-range-iowa" {
-  type = string
+  type    = string
   default = "192.168.61.0/28"
 }
 
 variable "ip-cidr-range-europe" {
-  type = string
+  type    = string
   default = "192.168.61.16/28"
 }
 
 #-------------------------------Região--------------------------------------#
 
 variable "region-america-latina-sp" {
-  type = string
+  type    = string
   default = "southamerica-east1"
 }
 
 variable "region-america-latina-chile" {
-  type = string
+  type    = string
   default = "southamerica-west1"
 }
 
 variable "region-iowa" {
-  type = string
+  type    = string
   default = "us-central1"
 }
 
 variable "region-europe" {
-  type = string
+  type    = string
   default = "europe-central2"
 }
