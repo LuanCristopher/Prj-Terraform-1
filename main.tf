@@ -14,6 +14,7 @@ provider "google" {
   */
   project = "cluster-study2"
   region  = "us-central1"
+  credentials = file("/home/runner/gcp-key.json")
 }
 
 
