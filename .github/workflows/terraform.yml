@@ -10,58 +10,64 @@ on:
   workflow_dispatch:
 
 jobs:
-  terraform:
+  terraform_workflow:
     name: Terraform Workflow
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # Permissions for GITHUB_TOKEN
+    env: # Environment variables available to all steps in this job
+      TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+      GOOGLE_APPLICATION_CREDENTIALS: /home/runner/gcp-key.json # Path to the GCP credentials file
 
     steps:
-      # Passo 1: Fazer checkout do código
-      - name: Checkout do repositório
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # Passo 2: Configurar Terraform
-      - name: Configurar Terraform
-        uses: hashicorp/setup-terraform@v2
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.4.0
+          terraform_version: 1.4.0 # Consider using a .terraform-version file
+          terraform_wrapper: true   # Enables features like caching and TF_HTTP_ADDRESS
 
-      # Passo 3: Configurar credenciais do GCP
-      - name: Configurar credenciais do GCP
+      - name: Configure GCP Credentials
         run: |
+          echo "Attempting to write GCP credentials..."
+          if [ -z "${{ secrets.GOOGLE_CREDENTIALS }}" ]; then
+            echo "Error: GOOGLE_CREDENTIALS secret is not set or empty."
+            exit 1
+          fi
           printf '%s' "${{ secrets.GOOGLE_CREDENTIALS }}" > /home/runner/gcp-key.json
+          echo "GCP credentials file created at ${{ env.GOOGLE_APPLICATION_CREDENTIALS }}"
+        shell: bash
 
-      # Passo 4: Validar arquivo JSON
-      - name: Validar arquivo JSON
+      - name: Validate GCP Credentials JSON
         run: |
-          cat /home/runner/gcp-key.json | jq
+          echo "Validating JSON structure of gcp-key.json..."
+          if jq -e . ${{ env.GOOGLE_APPLICATION_CREDENTIALS }} > /dev/null; then
+            echo "GCP Credentials JSON is valid."
+          else
+            echo "Error: GCP Credentials JSON is not valid. This may indicate an issue with the GOOGLE_CREDENTIALS secret content or formatting."
+            exit 1
+          fi
+        shell: bash
 
-      # Passo 5: Inicializar Terraform
-      - name: Inicializar Terraform
-        run: terraform init
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: /home/runner/gcp-key.json
+      - name: Initialize Terraform
+        run: terraform init -input=false
+        # GOOGLE_APPLICATION_CREDENTIALS and TF_VAR_project_id are inherited from job's env
 
-      # Passo 6: Validar arquivos Terraform
-      - name: Validar arquivos Terraform
+      - name: Validate Terraform Files
         run: terraform validate
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: /home/runner/gcp-key.json
+        # GOOGLE_APPLICATION_CREDENTIALS and TF_VAR_project_id are inherited from job's env
 
-      # Passo 7: Verificar formatação dos arquivos
-      - name: Verificar formatação dos arquivos
+      - name: Check Terraform Formatting
         run: terraform fmt -check
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: /home/runner/gcp-key.json
+        # GOOGLE_APPLICATION_CREDENTIALS and TF_VAR_project_id are inherited from job's env
 
-      # Passo 8: Gerar plano Terraform
-      - name: Gerar plano Terraform
-        run: terraform plan
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: /home/runner/gcp-key.json
+      - name: Generate Terraform Plan
+        run: terraform plan -input=false
+        # GOOGLE_APPLICATION_CREDENTIALS and TF_VAR_project_id are inherited from job's env
 
-      # Passo 9: Aplicar mudanças Terraform (manual)
-      - name: Aplicar mudanças Terraform
-        if: github.event_name == 'workflow_dispatch'
-        run: terraform apply -auto-approve
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: /home/runner/gcp-key.json
+      - name: Apply Terraform Changes
+        if: github.event_name == 'workflow_dispatch' # Changed condition
+        run: terraform apply -auto-approve -input=false
+        # GOOGLE_APPLICATION_CREDENTIALS and TF_VAR_project_id are inherited from job's env

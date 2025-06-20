@@ -7,66 +7,65 @@ terraform {
   }
 }
 
-
 provider "google" {
-  /*
-  credentials = file("../../svc-study-luan/sa.json")
-  */
-  project = "cluster-study2"
-  region  = "us-central1"
-  credentials = file("/home/runner/gcp-key.json")
+  project     = var.project_id
+  region      = var.gcp_region
+  credentials = file("/home/runner/gcp-key.json") # For GitHub Actions
+  # For local development, you might use:
+  # credentials = file("path/to/your/service-account-key.json")
+  # Or rely on gcloud auth application-default login
 }
-
 
 module "vpc" {
-  source     = "./vpc"
-  luan-vpc-1 = var.luan-vpc-1
-  luan-vpc-2 = var.luan-vpc-2
+  source = "./vpc"
 
-  subnet-sp     = var.subnet-sp
-  subnet-sp2    = var.subnet-sp2
-  subnet-chile  = var.subnet-chile
-  subnet-iowa   = var.subnet-iowa
-  subnet-europe = var.subnet-europe
+  luan_vpc_1_name = var.luan_vpc_1_name
+  luan_vpc_2_name = var.luan_vpc_2_name
 
-  ip-cidr-range-sp     = var.ip-cidr-range-sp
-  ip-cidr-range-chile  = var.ip-cidr-range-chile
-  ip-cidr-range-iowa   = var.ip-cidr-range-iowa
-  ip-cidr-range-europe = var.ip-cidr-range-europe
+  subnet_sp_name     = var.subnet_sp_name
+  subnet_sp2_name    = var.subnet_sp2_name
+  subnet_chile_name  = var.subnet_chile_name
+  subnet_iowa_name   = var.subnet_iowa_name
+  subnet_europe_name = var.subnet_europe_name
 
-  region-america-latina-sp    = var.region-america-latina-sp
-  region-america-latina-chile = var.region-america-latina-chile
-  region-iowa                 = var.region-iowa
-  region-europe               = var.region-europe
+  ip_cidr_range_sp     = var.ip_cidr_range_sp
+  ip_cidr_range_chile  = var.ip_cidr_range_chile
+  ip_cidr_range_iowa   = var.ip_cidr_range_iowa
+  ip_cidr_range_europe = var.ip_cidr_range_europe
 
+  region_southamerica_east1 = var.region_southamerica_east1
+  region_southamerica_west1 = var.region_southamerica_west1
+  region_us_central1        = var.region_us_central1
+  region_europe_central2    = var.region_europe_central2
 }
 
-module "intance" {
-  depends_on     = [module.vpc]
-  source         = "./instance"
-  luan-vm-sp     = var.luan-vm-sp
-  luan-vm-sp2    = var.luan-vm-sp2
-  luan-vm-chile  = var.luan-vm-chile
-  luan-vm-iowa   = var.luan-vm-iowa
-  luan-vm-europe = var.luan-vm-europe
+module "instance" { # Corrected spelling from "intance"
+  depends_on = [module.vpc]
+  source     = "./instance"
 
-  zona-sp     = var.zona-sp
-  zona-chile  = var.zona-chile
-  zona-iowa   = var.zona-iowa
-  zona-europe = var.zona-europe
+  luan_vm_sp     = var.luan_vm_sp
+  luan_vm_sp2    = var.luan_vm_sp2
+  luan_vm_chile  = var.luan_vm_chile
+  luan_vm_iowa   = var.luan_vm_iowa
+  luan_vm_europe = var.luan_vm_europe
 
-  vm-mc-type = var.vm-mc-type
-  disk-image = var.disk-image
-  size       = var.size
-  tags       = var.tags
+  zone_sp     = var.zone_sp
+  zone_chile  = var.zone_chile
+  zone_iowa   = var.zone_iowa
+  zone_europe = var.zone_europe
 
-  luan-vpc-1 = var.luan-vpc-1
-  luan-vpc-2 = var.luan-vpc-2
+  vm_machine_type = var.vm_machine_type
+  disk_image_uri  = var.disk_image_uri
+  disk_size_gb    = var.disk_size_gb
+  vm_tags         = var.vm_tags
 
-  subnet-sp     = var.subnet-sp
-  subnet-sp2    = var.subnet-sp2
-  subnet-chile  = var.subnet-chile
-  subnet-iowa   = var.subnet-iowa
-  subnet-europe = var.subnet-europe
+  # Network related variables passed to instance module
+  luan_vpc_1_name = var.luan_vpc_1_name
+  luan_vpc_2_name = var.luan_vpc_2_name
 
+  subnet_sp_name     = var.subnet_sp_name
+  subnet_sp2_name    = var.subnet_sp2_name # Ensure this is used in instance module if intended
+  subnet_chile_name  = var.subnet_chile_name
+  subnet_iowa_name   = var.subnet_iowa_name
+  subnet_europe_name = var.subnet_europe_name
 }

@@ -1,23 +1,29 @@
-output "luan-vpc-1" {
-  value = google_compute_network.luan-vpc-1.id
+output "luan_vpc_1_id" {
+  description = "The ID of the first VPC network (luan_vpc_1)"
+  value       = google_compute_network.luan_vpc_1.id
 }
 
-output "luan-vpc-2" {
-  value = google_compute_network.luan-vpc-2.id
+output "luan_vpc_2_id" {
+  description = "The ID of the second VPC network (luan_vpc_2)"
+  value       = google_compute_network.luan_vpc_2.id
 }
 
-output "subnet-sp" {
-  value = google_compute_subnetwork.subnet-sp.id
+output "subnet_sp_id" {
+  description = "The ID of the Sao Paulo subnet"
+  value       = google_compute_subnetwork.subnet_sp.id
 }
 
-output "subnet-chile" {
-  value = google_compute_subnetwork.subnet-chile.id
+output "subnet_chile_id" {
+  description = "The ID of the Chile subnet"
+  value       = google_compute_subnetwork.subnet_chile.id
 }
 
-output "subnet-iowa" {
-  value = google_compute_subnetwork.subnet-iowa.id
+output "subnet_iowa_id" {
+  description = "The ID of the Iowa subnet"
+  value       = google_compute_subnetwork.subnet_iowa.id
 }
 
-output "subnet-europe" {
-  value = google_compute_subnetwork.subnet-europe.id
+output "subnet_europe_id" {
+  description = "The ID of the Europe subnet"
+  value       = google_compute_subnetwork.subnet_europe.id
 }
