@@ -1,5 +1,32 @@
+# Custom or sensitive files specific to this project
 /provider/chave2.json
-.terraform.lock.hcl
-.terraform
-terraform.tfstate
-terraform.tfstate.backup
+
+# Terraform Core Files
+.terraform/
+*.tfstate
+*.tfstate.* # Covers .tfstate.backup, .tfstate.lock, etc.
+crash.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+*.tfplan
+
+# Terraform lock file - DO NOT IGNORE
+# .terraform.lock.hcl should be committed.
+
+# Example files - DO NOT IGNORE
+# Ensure terraform.tfvars.example (and similar) are committed.
+!*.example
+
+# Common OS / IDE specific files
+.DS_Store
+*~
+Thumbs.db
+.vscode/
+.idea/
+
+# Log files
+*.log

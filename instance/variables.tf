@@ -1,105 +1,122 @@
-variable "luan-vm-sp" {
-  type = string
-  default = ""
+variable "luan_vm_sp" {
+  description = "Name for the Sao Paulo VM"
+  type        = string
+  default     = null
 }
 
-variable "luan-vm-sp2" {
-    type = string
-    default = ""
+variable "luan_vm_sp2" {
+  description = "Name for the second Sao Paulo VM"
+  type        = string
+  default     = null
 }
-variable "luan-vm-chile" {
-    type = string
-    default = "" 
+variable "luan_vm_chile" {
+  description = "Name for the Chile VM"
+  type        = string
+  default     = null
 }
-variable "luan-vm-iowa" {
-    type = string
-    default = ""  
-}
-
-variable "luan-vm-europe" {
-    type = string
-    default = ""  
+variable "luan_vm_iowa" {
+  description = "Name for the Iowa VM"
+  type        = string
+  default     = null
 }
 
-#-----------------------------------zonas--------------------------------------------#
-
-variable "zona-sp" {
-    type = string
-    default = ""   
+variable "luan_vm_europe" {
+  description = "Name for the Europe VM"
+  type        = string
+  default     = null
 }
 
-variable "zona-chile" {
-    type = string
-    default = ""   
+## Zones Configuration
+variable "zone_sp" {
+  description = "Zone for Sao Paulo resources"
+  type        = string
+  default     = null
 }
 
-variable "zona-iowa" {
-    type = string
-    default = ""   
+variable "zone_chile" {
+  description = "Zone for Chile resources"
+  type        = string
+  default     = null
 }
 
-variable "zona-europe" {
-    type = string
-    default = ""   
+variable "zone_iowa" {
+  description = "Zone for Iowa resources"
+  type        = string
+  default     = null
 }
 
-#-----------------------------------instancia--------------------------------------------#
-
-variable "vm-mc-type" {
-  type = string
-  default = ""
+variable "zone_europe" {
+  description = "Zone for Europe resources"
+  type        = string
+  default     = null
 }
 
-variable "disk-image" {
-  type = string
-  default = ""
+## Instance General Configuration
+variable "vm_machine_type" {
+  description = "Machine type for the VMs"
+  type        = string
+  default     = null
 }
 
-variable "size" {
-  type = number
-  default = 0
+variable "disk_image_uri" {
+  description = "Disk image URI for the VMs"
+  type        = string
+  default     = null
 }
 
-variable "tags" {
-  type = string
-  default = ""
+variable "disk_size_gb" {
+  description = "Disk size in GB for the VMs"
+  type        = number
+  default     = null # Defaulting to null, expecting value from root module
 }
 
-variable "luan-vpc-1" {
-  type = string
-  default = ""
+variable "vm_tags" {
+  description = "Tags to apply to the VMs"
+  type        = list(string)
+  default     = null
 }
 
-
-variable "luan-vpc-2" {
-  type = string
-  default = ""
+## VPC Network Information (passed from root)
+variable "luan_vpc_1_name" {
+  description = "Name of the first VPC network"
+  type        = string
+  default     = null
 }
 
-#-------------------------------------subnets-name------------------------------------------#
-
-variable "subnet-sp" {
-  type = string
-  default = "" 
+variable "luan_vpc_2_name" {
+  description = "Name of the second VPC network"
+  type        = string
+  default     = null
 }
 
-variable "subnet-sp2" {
-  type = string
-  default = "" 
+## Subnet Information (passed from root)
+variable "subnet_sp_name" {
+  description = "Name of the Sao Paulo subnet"
+  type        = string
+  default     = null
 }
 
-variable "subnet-chile" {
-  type = string
-  default = "" 
+variable "subnet_sp2_name" { # This variable was present, keeping it for consistency
+  description = "Name of the second Sao Paulo subnet"
+  type        = string
+  default     = null
 }
 
-variable "subnet-iowa" {
-  type = string
-  default = "" 
+variable "subnet_chile_name" {
+  description = "Name of the Chile subnet"
+  type        = string
+  default     = null
 }
 
-variable "subnet-europe" {
-  type = string
-  default = "" 
+variable "subnet_iowa_name" {
+  description = "Name of the Iowa subnet"
+  type        = string
+  default     = null
+}
+
+variable "subnet_europe_name" {
+  description = "Name of the Europe subnet"
+  type        = string
+  default     = null
 }
 
