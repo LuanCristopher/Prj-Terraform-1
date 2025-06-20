@@ -29,28 +29,6 @@ jobs:
           terraform_version: 1.4.0 # Consider using a .terraform-version file
           terraform_wrapper: true   # Enables features like caching and TF_HTTP_ADDRESS
 
-      - name: Configure GCP Credentials
-        run: |
-          echo "Attempting to write GCP credentials..."
-          if [ -z "${{ secrets.GOOGLE_CREDENTIALS }}" ]; then
-            echo "Error: GOOGLE_CREDENTIALS secret is not set or empty."
-            exit 1
-          fi
-          printf '%s' "${{ secrets.GOOGLE_CREDENTIALS }}" > /home/runner/gcp-key.json
-          echo "GCP credentials file created at ${{ env.GOOGLE_APPLICATION_CREDENTIALS }}"
-        shell: bash
-
-      - name: Validate GCP Credentials JSON
-        run: |
-          echo "Validating JSON structure of gcp-key.json..."
-          if jq -e . ${{ env.GOOGLE_APPLICATION_CREDENTIALS }} > /dev/null; then
-            echo "GCP Credentials JSON is valid."
-          else
-            echo "Error: GCP Credentials JSON is not valid. This may indicate an issue with the GOOGLE_CREDENTIALS secret content or formatting."
-            exit 1
-          fi
-        shell: bash
-
       - name: Initialize Terraform
         run: terraform init -input=false
         # GOOGLE_APPLICATION_CREDENTIALS and TF_VAR_project_id are inherited from job's env
